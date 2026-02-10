@@ -132,8 +132,8 @@ const InfiniteCarousel: React.FC<InfiniteCarouselProps> = ({
     // Adjust diff to be -1, 0, 1 for prev, current, next
     if (diff > len / 2) diff -= len;
 
-    // Base styles
-    const baseStyle = "absolute top-1/2 left-1/2 transition-all duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)] shadow-2xl origin-bottom";
+    // Base styles - optimized transitions for performance
+    const baseStyle = "absolute top-1/2 left-1/2 transition-[transform,opacity,filter] duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)] shadow-2xl origin-bottom transform-gpu will-change-[transform,opacity]";
     
     // CENTER CARD (Active)
     if (index === currentIndex) {
@@ -143,13 +143,13 @@ const InfiniteCarousel: React.FC<InfiniteCarouselProps> = ({
     // PREVIOUS CARD (Left, tucked behind)
     const prevIndex = (currentIndex - 1 + len) % len;
     if (index === prevIndex) {
-      return `${baseStyle} z-20 opacity-50 scale-90 -translate-x-[85%] -translate-y-1/2 -rotate-6 grayscale blur-[1px] cursor-pointer hover:opacity-80`;
+      return `${baseStyle} z-20 opacity-50 scale-90 -translate-x-[85%] -translate-y-1/2 -rotate-6 grayscale md:blur-[1px] cursor-pointer hover:opacity-80`;
     }
     
     // NEXT CARD (Right, tucked behind)
     const nextIndex = (currentIndex + 1) % len;
     if (index === nextIndex) {
-      return `${baseStyle} z-20 opacity-50 scale-90 translate-x-[calc(-15%)] -translate-y-1/2 rotate-6 grayscale blur-[1px] cursor-pointer hover:opacity-80`;
+      return `${baseStyle} z-20 opacity-50 scale-90 translate-x-[calc(-15%)] -translate-y-1/2 rotate-6 grayscale md:blur-[1px] cursor-pointer hover:opacity-80`;
     }
 
     // OTHERS (Hidden behind center)
@@ -169,8 +169,8 @@ const InfiniteCarousel: React.FC<InfiniteCarouselProps> = ({
       onMouseLeave={onMouseLeave}
     >
       
-      {/* Decorative Background for Carousel */}
-      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-40 md:h-96 bg-white/5 blur-3xl rounded-full -z-10 pointer-events-none"></div>
+      {/* Decorative Background for Carousel - Optimized with radial gradient */}
+      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-40 md:h-96 bg-[radial-gradient(circle,_rgba(255,255,255,0.05)_0%,_transparent_70%)] rounded-full -z-10 pointer-events-none transform-gpu"></div>
 
       {/* Cards Container */}
       <div className="w-full h-full relative">
@@ -190,12 +190,14 @@ const InfiniteCarousel: React.FC<InfiniteCarouselProps> = ({
                     }
                 }}
                 // UPDATED: Size updated to md:w-[750px] md:h-[480px] for massive desktop slides
-                className={`w-64 h-44 md:w-[750px] md:h-[480px] bg-white p-2 md:p-5 rounded-sm ${cardClasses}`}
+                className={`w-64 h-44 md:w-[750px] md:h-[480px] bg-white p-2 md:p-5 rounded-sm ${cardClasses} will-change-transform`}
               >
-                <div className={`w-full h-full bg-gray-900 relative overflow-hidden border border-gray-200 shadow-inner group-card`}>
+                <div className={`w-full h-full bg-gray-900 relative overflow-hidden border border-gray-200 shadow-inner group-card transform-gpu`}>
                     <img
                         src={memory.imageUrl}
                         alt={memory.title}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover pointer-events-none"
                     />
                     

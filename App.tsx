@@ -19,15 +19,15 @@ const App: React.FC = () => {
       
       {/* === BACKGROUND DECORATIONS (The "Ramai" Factor) === */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-         {/* Gradients */}
-        <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] bg-purple-900/10 rounded-full blur-[120px] mix-blend-screen animate-pulse duration-[8s]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-pink-900/10 rounded-full blur-[100px] mix-blend-screen"></div>
+         {/* Gradients - Optimized with radial-gradient instead of heavy blur filters */}
+        <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-[radial-gradient(circle,_rgba(88,28,135,0.1)_0%,_transparent_70%)] mix-blend-screen animate-pulse duration-[8s] transform-gpu will-change-[opacity]"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-[radial-gradient(circle,_rgba(131,24,67,0.1)_0%,_transparent_70%)] mix-blend-screen transform-gpu"></div>
         
-        {/* Floating Icons/Doodles */}
-        <Star className="absolute top-20 left-[10%] text-yellow-500/20 w-12 h-12 rotate-12 animate-bounce duration-[3000ms]" />
-        <Star className="absolute bottom-40 right-[15%] text-purple-500/20 w-8 h-8 -rotate-12" />
-        <Zap className="absolute top-1/3 right-[5%] text-cyan-500/20 w-16 h-16 rotate-45" />
-        <Disc className="absolute bottom-20 left-10 text-white/5 w-32 h-32 animate-spin duration-[10000ms]" />
+        {/* Floating Icons/Doodles - Added GPU acceleration */}
+        <Star className="absolute top-20 left-[10%] text-yellow-500/20 w-12 h-12 rotate-12 animate-bounce duration-[3000ms] transform-gpu will-change-transform" />
+        <Star className="absolute bottom-40 right-[15%] text-purple-500/20 w-8 h-8 -rotate-12 transform-gpu" />
+        <Zap className="absolute top-1/3 right-[5%] text-cyan-500/20 w-16 h-16 rotate-45 transform-gpu" />
+        <Disc className="absolute bottom-20 left-10 text-white/5 w-32 h-32 animate-spin duration-[10000ms] transform-gpu will-change-transform" />
         
         {/* Abstract Lines */}
         <div className="absolute top-1/4 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent transform -rotate-3"></div>
@@ -44,8 +44,8 @@ const App: React.FC = () => {
       </div>
 
       <div className="relative z-10 flex flex-col min-h-screen">
-        {/* Header */}
-        <header className="w-full py-6 px-6 md:px-12 flex justify-between items-center border-b border-white/5 backdrop-blur-sm sticky top-0 z-40 bg-black/20">
+        {/* Header - Reduced blur for mobile performance */}
+        <header className="w-full py-6 px-6 md:px-12 flex justify-between items-center border-b border-white/5 backdrop-blur-md md:backdrop-blur-sm sticky top-0 z-40 bg-black/40 md:bg-black/20">
           <div className="flex items-center gap-3 group cursor-pointer">
             <div className="relative">
                 <div className="absolute inset-0 bg-purple-500 blur-sm opacity-50 rounded-full group-hover:opacity-100 transition-opacity"></div>
