@@ -6,7 +6,7 @@ export const SCHOOL_IG_URL = "https://www.instagram.com/markxii.visual?igsh=MTh2
 export const MEMORIES: Memory[] = [
   {
     id: 1,
-    imageUrl: "https://i.ibb.co.com/7t30yDR7/20231127-092655.jpg",
+    imageUrl: "https://i.ibb.co.com/27Tr6NRg/20231127-092655-1.jpg",
     title: "Teman Terbaik Welll",
     date: "12 Mei 2023",
     description: "kita cuma teman tapi kita seperti sahabat."
