@@ -61,7 +61,7 @@ const App: React.FC = () => {
           
           <div className="hidden md:block">
             <div className="px-4 py-1 border border-white/20 rounded-full text-xs font-mono text-gray-400 bg-white/5 transform rotate-2 hover:rotate-0 transition-transform">
-              Since 2024
+              Since 2025
             </div>
           </div>
         </header>
