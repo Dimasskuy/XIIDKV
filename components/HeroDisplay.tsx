@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Memory, QuoteState } from '../types';
-import { generateNostalgicQuote } from '../services/geminiService';
+import { getRandomQuote } from '../services/quoteService';
 import { Sparkles, Loader2, Quote, Sticker } from 'lucide-react';
 
 interface HeroDisplayProps {
@@ -21,7 +21,7 @@ const HeroDisplay: React.FC<HeroDisplayProps> = ({ memory }) => {
   const handleGenerateQuote = async () => {
     setQuoteState(prev => ({ ...prev, isLoading: true, error: null }));
     try {
-      const text = await generateNostalgicQuote(memory.title, memory.description);
+      const text = await getRandomQuote();
       setQuoteState({ text, isLoading: false, error: null });
     } catch (err) {
       setQuoteState({ text: '', isLoading: false, error: 'Gagal memuat caption.' });
