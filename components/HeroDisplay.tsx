@@ -90,7 +90,7 @@ const HeroDisplay: React.FC<HeroDisplayProps> = ({ memory }) => {
                     >
                     <span className="relative flex items-center gap-2">
                         <Sparkles size={14} />
-                        Generate Vibe Check
+                        Vibe Check Here..
                     </span>
                     </button>
                 )}
