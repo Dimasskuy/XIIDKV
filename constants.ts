@@ -8,14 +8,14 @@ export const MEMORIES: Memory[] = [
     id: 1,
     imageUrl: "https://i.ibb.co.com/27Tr6NRg/20231127-092655-1.jpg",
     title: "Teman Terbaik Welll",
-    date: "12 Mei 2023",
+    date: "12 Mei 2024",
     description: "kita cuma teman tapi kita seperti sahabat."
   },
   {
     id: 2,
-    imageUrl: "https://i.ibb.co.com/5hJCry3S/IMG-20241126-WA0097.jpg",
-    title: "Wali kelas Terbaik",
-    date: "20 September 2023",
+    imageUrl: "https://i.ibb.co.com/23nyZFQv/IMG-20260210-193743-1.jpg",
+    title: "Wali kelas Terbaik kita semua",
+    date: "----- ------ 2025",
     description: "Bu Vida yang selalu sabar ngadepin kita yang beban ini.."
   },
   {
@@ -27,23 +27,16 @@ export const MEMORIES: Memory[] = [
   },
   {
     id: 4,
-    imageUrl: "https://picsum.photos/1200/800?random=44",
-    title: "Lomba 17an Antar Kelas",
-    date: "17 Agustus 2023",
-    description: "Menang kalah urusan belakang, yang penting heboh dan kompak pakai baju adat."
+    imageUrl: "https://i.ibb.co.com/HDfDwNkj/IMG-20260210-WA0007.jpg",
+    title: "Lomba class meeting Antar Kelas",
+    date: "-- ------- 2025",
+    description: "Menang kalah urusan belakang, tapi kita selalu menang bosss."
   },
   {
     id: 5,
-    imageUrl: "https://picsum.photos/1200/800?random=55",
-    title: "Ujian Praktek Terakhir",
-    date: "25 Desember 2023",
-    description: "Muka-muka lelah tapi lega setelah presentasi karya di depan penguji killer."
-  },
-  {
-    id: 6,
-    imageUrl: "https://picsum.photos/1200/800?random=66",
-    title: "Guru Seni Budaya",
-    date: "10 Januari 2024",
-    description: "Bu Susi yang selalu support ide-ide gila kita buat pameran sekolah."
+    imageUrl: "https://i.ibb.co.com/rfTdrsZT/IMG-20260210-192927.jpg",
+    title: "HBD BU VIDAA🎉",
+    date: "-- ------- 2025",
+    description: "Guru kesukaan kita ulang tahun ygy"
   }
 ];
