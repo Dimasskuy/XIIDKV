@@ -38,17 +38,19 @@ const HeroDisplay: React.FC<HeroDisplayProps> = ({ memory }) => {
       <div className="flex flex-col md:flex-row gap-8 items-center bg-[#1a1a1a] p-4 md:p-6 rounded-xl border border-white/10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] relative">
         
         {/* Photo Section */}
-        <div className="relative group w-full md:w-3/5">
+        <div className="relative group w-full md:w-3/5 transform-gpu">
             {/* Sticker Decoration */}
             <div className="absolute -top-4 -left-4 z-20 transform -rotate-12 bg-white text-black text-xs font-bold px-3 py-1 rounded-full shadow-lg border-2 border-black">
                 NEW!
             </div>
             
-            <div className="relative bg-white p-2 md:p-3 pb-8 md:pb-12 shadow-xl transform transition-transform duration-500 hover:scale-[1.01] hover:rotate-1">
+            <div className="relative bg-white p-2 md:p-3 pb-8 md:pb-12 shadow-xl transform-gpu transition-transform duration-500 hover:scale-[1.01] hover:rotate-1">
                 <div className="aspect-video w-full overflow-hidden bg-gray-200 relative border border-gray-300">
                     <img
                     src={memory.imageUrl}
                     alt={memory.title}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover filter contrast-[1.1] saturate-[0.9]"
                     />
                     {/* Grain overlay on photo */}
@@ -66,8 +68,8 @@ const HeroDisplay: React.FC<HeroDisplayProps> = ({ memory }) => {
 
         {/* Text/Context Section */}
         <div className="w-full md:w-2/5 flex flex-col items-start text-left space-y-4 relative">
-             {/* Abstract blob behind text */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-purple-500/5 rounded-full blur-2xl -z-10"></div>
+             {/* Abstract blob behind text - Optimized with radial gradient */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[radial-gradient(circle,_rgba(168,85,247,0.05)_0%,_transparent_70%)] rounded-full -z-10 transform-gpu"></div>
 
             <h1 className="text-3xl md:text-5xl font-black font-sans text-white uppercase leading-[0.9] tracking-tighter drop-shadow-lg">
                 {memory.title}
