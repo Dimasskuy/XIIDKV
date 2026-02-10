@@ -57,7 +57,7 @@ const InfiniteCarousel: React.FC<InfiniteCarouselProps> = ({
   const resumeAutoPlay = () => {
     timeoutRef.current = setTimeout(() => {
       setIsPaused(false);
-    }, 1000);
+    }, 2500);
   };
 
   // --- Swipe/Touch Handlers ---
