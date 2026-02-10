@@ -149,7 +149,7 @@ const InfiniteCarousel: React.FC<InfiniteCarouselProps> = ({
     // NEXT CARD (Right, tucked behind)
     const nextIndex = (currentIndex + 1) % len;
     if (index === nextIndex) {
-      return `${baseStyle} z-20 opacity-50 scale-90 translate-x-[calc(-15%)] -translate-y-1/2 rotate-6 grayscale md:blur-[1px] cursor-pointer hover:opacity-80`;
+      return `${baseStyle} z-20 opacity-50 scale-90 -translate-x-[15%] -translate-y-1/2 rotate-6 grayscale md:blur-[1px] cursor-pointer hover:opacity-80`;
     }
 
     // OTHERS (Hidden behind center)
@@ -158,8 +158,8 @@ const InfiniteCarousel: React.FC<InfiniteCarouselProps> = ({
 
   return (
     <div 
-      // UPDATED: Increased max-width and height for desktop (md:h-[550px])
-      className="relative w-full max-w-[95vw] mx-auto group my-12 h-[300px] md:h-[550px] select-none cursor-grab active:cursor-grabbing perspective-1000"
+      // Adjusted height for better desktop balance
+      className="relative w-full max-w-[95vw] mx-auto group my-12 h-[300px] md:h-[400px] select-none cursor-grab active:cursor-grabbing perspective-1000"
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
@@ -189,8 +189,8 @@ const InfiniteCarousel: React.FC<InfiniteCarouselProps> = ({
                       onScrollChange(index);
                     }
                 }}
-                // UPDATED: Size updated to md:w-[750px] md:h-[480px] for massive desktop slides
-                className={`w-64 h-44 md:w-[750px] md:h-[480px] bg-white p-2 md:p-5 rounded-sm ${cardClasses} will-change-transform`}
+                // Reduced size for desktop so it doesn't overshadow the Hero
+                className={`w-64 h-44 md:w-[500px] md:h-[320px] bg-white p-2 md:p-5 rounded-sm ${cardClasses} will-change-transform`}
               >
                 <div className={`w-full h-full bg-gray-900 relative overflow-hidden border border-gray-200 shadow-inner group-card transform-gpu`}>
                     <img

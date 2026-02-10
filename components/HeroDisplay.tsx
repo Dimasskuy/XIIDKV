@@ -29,16 +29,16 @@ const HeroDisplay: React.FC<HeroDisplayProps> = ({ memory }) => {
   };
 
   return (
-    <div className="relative w-full max-w-5xl mx-auto mb-4 flex flex-col items-center z-20">
+    <div className="relative w-full max-w-6xl mx-auto mb-4 flex flex-col items-center z-20">
       
       {/* Decorative Washi Tape Top */}
       <div className="w-32 h-8 bg-yellow-400/80 absolute -top-4 z-30 transform -rotate-3 opacity-90 backdrop-blur-sm shadow-sm" style={{ clipPath: 'polygon(0% 0%, 100% 0%, 98% 100%, 2% 100%)' }}></div>
 
       {/* Main Container */}
-      <div className="flex flex-col md:flex-row gap-8 items-center bg-[#1a1a1a] p-4 md:p-6 rounded-xl border border-white/10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] relative">
+      <div className="flex flex-col md:flex-row gap-8 items-center bg-[#1a1a1a] p-4 md:p-8 rounded-xl border border-white/10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] relative">
         
         {/* Photo Section */}
-        <div className="relative group w-full md:w-3/5 transform-gpu">
+        <div className="relative group w-full md:w-[65%] transform-gpu">
             {/* Sticker Decoration */}
             <div className="absolute -top-4 -left-4 z-20 transform -rotate-12 bg-white text-black text-xs font-bold px-3 py-1 rounded-full shadow-lg border-2 border-black">
                 NEW!
@@ -67,7 +67,7 @@ const HeroDisplay: React.FC<HeroDisplayProps> = ({ memory }) => {
         </div>
 
         {/* Text/Context Section */}
-        <div className="w-full md:w-2/5 flex flex-col items-start text-left space-y-4 relative">
+        <div className="w-full md:w-[35%] flex flex-col items-start text-left space-y-4 relative">
              {/* Abstract blob behind text - Optimized with radial gradient */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[radial-gradient(circle,_rgba(168,85,247,0.05)_0%,_transparent_70%)] rounded-full -z-10 transform-gpu"></div>
 
