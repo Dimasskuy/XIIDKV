@@ -1,29 +1,29 @@
 import { Memory } from './types';
 
-export const CLASS_NAME = "3 DKV";
+export const CLASS_NAME = "XII DKV";
 export const SCHOOL_IG_URL = "https://www.instagram.com/markxii.visual?igsh=MTh2MDN4YmZkcmdseA=="; // Updated link
 
 export const MEMORIES: Memory[] = [
   {
     id: 1,
-    imageUrl: "https://picsum.photos/1200/800?random=10",
-    title: "Wali Kelas Terbaik",
+    imageUrl: "https://i.ibb.co.com/7t30yDR7/20231127-092655.jpg",
+    title: "Teman Terbaik Welll",
     date: "12 Mei 2023",
-    description: "Pak Heri yang selalu sabar ngadepin deadline tugas kita yang molor terus."
+    description: "kita cuma teman tapi kita seperti sahabat."
   },
   {
     id: 2,
-    imageUrl: "https://picsum.photos/1200/800?random=22",
-    title: "Jam Kosong di Kantin",
+    imageUrl: "https://i.ibb.co.com/5hJCry3S/IMG-20241126-WA0097.jpg",
+    title: "Wali kelas Terbaik",
     date: "20 September 2023",
-    description: "Bukannya ngerjain sketsa, malah gibah dan makan gorengan sampai bel pulang."
+    description: "Bu Vida yang selalu sabar ngadepin kita yang beban ini.."
   },
   {
     id: 3,
-    imageUrl: "https://picsum.photos/1200/800?random=33",
-    title: "Foto Angkatan Full Team",
-    date: "15 Agustus 2023",
-    description: "Jarang-jarang bisa kumpul lengkap gini tanpa ada yang bolos."
+    imageUrl: "https://i.ibb.co.com/jvYpH0xg/IMG-20241126-WA0106.jpg",
+    title: "Foto jaman 90 an",
+    date: "15 Agustus 1981",
+    description: "Gak tau ini foto dah jaman purba"
   },
   {
     id: 4,
