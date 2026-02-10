@@ -34,9 +34,30 @@ export const MEMORIES: Memory[] = [
   },
   {
     id: 5,
+    imageUrl: "https://i.ibb.co.com/DfrN1GyX/IMG-20260210-WA0023.jpg",
+    title: "Praktek buat kemasan",
+    date: "10 Januari 2026",
+    description: "Meskipun awalnya susah nanti juga kita ahli jika kita terus berusaha"
+  },
+  {
+    id: 6,
     imageUrl: "https://i.ibb.co.com/rfTdrsZT/IMG-20260210-192927.jpg",
-    title: "HBD BU VIDAA🎉",
-    date: "-- ------- 2025",
+    title: "HBD Bu Vidaa🎉",
+    date: "26 November 2025",
     description: "Guru kesukaan kita ulang tahun ygy"
+  },
+  {
+    id: 7,
+    imageUrl: "https://i.ibb.co.com/v6VRxwh9/IMG-20260210-WA0030.jpg",
+    title: "ANOMALI",
+    date: "16 desember 2025",
+    description: "Gak Jelas dah ini"
+  },
+  {
+    id: 8,
+    imageUrl: "https://i.ibb.co.com/rTtF7L7/IMG-20260210-203252.jpg",
+    title: "Olahraga bareng",
+    date: "14 Februari 2026",
+    description: "Niat Naik gunung malah stop di tengah jalan"
   }
 ];
