@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MEMORIES, CLASS_NAME } from './constants';
 import HeroDisplay from './components/HeroDisplay';
 import InfiniteCarousel from './components/InfiniteCarousel';
 import Footer from './components/Footer';
+import IntroScreen from './components/IntroScreen';
 import { Camera, Star, Zap, Disc, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const App: React.FC = () => {
+  const [showIntro, setShowIntro] = useState(true);
+
   // State for the large "Hero" image (only changes on user click)
   const [heroIndex, setHeroIndex] = useState(0);
   
@@ -16,7 +20,12 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#080808] text-white overflow-x-hidden font-sans relative selection:bg-pink-500/30">
-      
+      <AnimatePresence mode="wait">
+        {showIntro && (
+          <IntroScreen key="intro" onComplete={() => setShowIntro(false)} />
+        )}
+      </AnimatePresence>
+
       {/* === BACKGROUND DECORATIONS (The "Ramai" Factor) === */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
          {/* Gradients - Optimized with radial-gradient instead of heavy blur filters */}
@@ -43,56 +52,99 @@ const App: React.FC = () => {
         <X className="absolute bottom-1/4 right-1/4 text-white/10 w-8 h-8" />
       </div>
 
-      <div className="relative z-10 flex flex-col min-h-screen">
-        {/* Header - Reduced blur for mobile performance */}
-        <header className="w-full py-6 px-6 md:px-12 flex justify-between items-center border-b border-white/5 backdrop-blur-md md:backdrop-blur-sm sticky top-0 z-40 bg-black/40 md:bg-black/20">
-          <div className="flex items-center gap-3 group cursor-pointer">
-            <div className="relative">
-                <div className="absolute inset-0 bg-purple-500 blur-sm opacity-50 rounded-full group-hover:opacity-100 transition-opacity"></div>
-                <Camera strokeWidth={1.5} className="w-8 h-8 text-white relative z-10" />
+      {!showIntro && (
+        <motion.div
+          initial="hidden"
+          animate="show"
+          variants={{
+            hidden: { opacity: 0 },
+            show: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.2,
+                delayChildren: 0.1
+              }
+            }
+          }}
+          className="relative z-10 flex flex-col min-h-screen"
+        >
+          {/* Header - Reduced blur for mobile performance */}
+          <motion.header
+            variants={{
+              hidden: { opacity: 0, y: -20 },
+              show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+            }}
+            className="w-full py-6 px-6 md:px-12 flex justify-between items-center border-b border-white/5 backdrop-blur-md md:backdrop-blur-sm sticky top-0 z-40 bg-black/40 md:bg-black/20"
+          >
+            <div className="flex items-center gap-3 group cursor-pointer">
+              <div className="relative">
+                  <div className="absolute inset-0 bg-purple-500 blur-sm opacity-50 rounded-full group-hover:opacity-100 transition-opacity"></div>
+                  <Camera strokeWidth={1.5} className="w-8 h-8 text-white relative z-10" />
+              </div>
+              <div className="flex flex-col">
+                  <h1 className="text-2xl font-black tracking-tighter italic group-hover:text-purple-300 transition-colors">
+                    ALBUM {CLASS_NAME}
+                  </h1>
+                  <span className="text-[10px] tracking-[0.3em] text-gray-400 uppercase">Class of Legends</span>
+              </div>
             </div>
-            <div className="flex flex-col">
-                <h1 className="text-2xl font-black tracking-tighter italic group-hover:text-purple-300 transition-colors">
-                  ALBUM {CLASS_NAME}
-                </h1>
-                <span className="text-[10px] tracking-[0.3em] text-gray-400 uppercase">Class of Legends</span>
+
+            <div className="hidden md:block">
+              <div className="px-4 py-1 border border-white/20 rounded-full text-xs font-mono text-gray-400 bg-white/5 transform rotate-2 hover:rotate-0 transition-transform">
+                Since 2025
+              </div>
             </div>
-          </div>
-          
-          <div className="hidden md:block">
-            <div className="px-4 py-1 border border-white/20 rounded-full text-xs font-mono text-gray-400 bg-white/5 transform rotate-2 hover:rotate-0 transition-transform">
-              Since 2025
-            </div>
-          </div>
-        </header>
+          </motion.header>
 
-        {/* Main Content Area */}
-        <main className="flex-grow flex flex-col items-center justify-start py-8 space-y-6 w-full px-4">
-          
-          <HeroDisplay memory={activeMemory} />
+          {/* Main Content Area */}
+          <main className="flex-grow flex flex-col items-center justify-start py-8 space-y-6 w-full px-4">
 
-          <div className="w-full mt-auto">
-             {/* Section Title for Carousel */}
-             <div className="text-center mb-2 opacity-50">
-                <span className="font-hand text-xl text-purple-300"> ~ Swipe to explore ~ </span>
-             </div>
-             {/* 
-                - carouselIndex controls the animation loop 
-                - setCarouselIndex updates the animation loop
-                - setHeroIndex is called ONLY when a user CLICKS a photo
-             */}
-            <InfiniteCarousel 
-              memories={MEMORIES} 
-              currentIndex={carouselIndex}
-              onScrollChange={setCarouselIndex}
-              onPickMemory={setHeroIndex}
-              activeHeroId={activeMemory.id}
-            />
-          </div>
-        </main>
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, scale: 0.95 },
+                show: { opacity: 1, scale: 1, transition: { duration: 0.8, ease: "easeOut" } }
+              }}
+              className="w-full flex justify-center"
+            >
+              <HeroDisplay memory={activeMemory} />
+            </motion.div>
 
-        <Footer />
-      </div>
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+              }}
+              className="w-full mt-auto"
+            >
+               {/* Section Title for Carousel */}
+               <div className="text-center mb-2 opacity-50">
+                  <span className="font-hand text-xl text-purple-300"> ~ Swipe to explore ~ </span>
+               </div>
+               {/*
+                  - carouselIndex controls the animation loop
+                  - setCarouselIndex updates the animation loop
+                  - setHeroIndex is called ONLY when a user CLICKS a photo
+               */}
+              <InfiniteCarousel
+                memories={MEMORIES}
+                currentIndex={carouselIndex}
+                onScrollChange={setCarouselIndex}
+                onPickMemory={setHeroIndex}
+                activeHeroId={activeMemory.id}
+              />
+            </motion.div>
+          </main>
+
+          <motion.div
+            variants={{
+              hidden: { opacity: 0 },
+              show: { opacity: 1, transition: { delay: 0.5 } }
+            }}
+          >
+            <Footer />
+          </motion.div>
+        </motion.div>
+      )}
     </div>
   );
 };
