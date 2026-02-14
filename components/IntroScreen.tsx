@@ -29,8 +29,8 @@ const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
           className="fixed inset-0 z-[100] bg-[#050505] flex flex-col items-center justify-center overflow-hidden"
         >
           {/* Background decorations matching the main theme */}
-          <div className="absolute inset-0 z-0 pointer-events-none">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vw] rounded-full bg-[radial-gradient(circle,_rgba(147,51,234,0.07)_0%,_transparent_70%)] blur-3xl transform-gpu"></div>
+          <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vw] rounded-full bg-[radial-gradient(circle,_rgba(147,51,234,0.05)_0%,_transparent_70%)] transform-gpu will-change-transform"></div>
           </div>
 
           <div className="relative z-10 flex flex-col items-center">
@@ -79,7 +79,7 @@ const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 1 }}
-            className="absolute bottom-12 font-hand text-xl text-white/20"
+            className="absolute bottom-8 md:bottom-12 font-hand text-lg md:text-xl text-white/20"
           >
             Class of Legends
           </motion.div>
