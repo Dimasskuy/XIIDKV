@@ -63,21 +63,21 @@ export const MEMORIES: Memory[] = [
   {
     id: 9,
     imageUrl: "https://i.ibb.co.com/xqRLJvGL/IMG-20260214-WA0040.jpg",
-    title: "Vibes OTW Revisi",
+    title: "Alamak lucunyoo",
     date: "-- ------- 2025",
-    description: "Helm udah on, motor udah ready, tinggal mental yang harus kuat buat dengerin feedback."
+    description: "Artisnya DKV nihh."
   },
   {
     id: 10,
     imageUrl: "https://i.ibb.co.com/XN6RtS0/IMG-20260214-201501.jpg",
-    title: "Liwetan Creative Crew",
+    title: "Niat ikut lomba masak malah di makan sendiri😭",
     date: "-- ------- 2025",
     description: "Revisi boleh numpuk, tapi perut jangan sampai kosong. Karena ide cemerlang datang dari perut yang kenyang."
   },
   {
     id: 11,
     imageUrl: "https://i.ibb.co.com/Xf4T0NPn/IMG-20260214-203920.jpg",
-    title: "Bukber Seru di Rumah Alfin",
+    title: "Bukber Seruu",
     date: "Ramadan 2025",
     description: "Momen hangat waktu buka bersama di rumah Alfin. Makanannya enak, tapi kebersamaannya yang paling juara."
   },
