@@ -59,5 +59,19 @@ export const MEMORIES: Memory[] = [
     title: "Olahraga bareng",
     date: "14 Februari 2026",
     description: "Niat Naik gunung malah stop di tengah jalan"
+  },
+  {
+    id: 9,
+    imageUrl: "https://i.ibb.co.com/xqRLJvGL/IMG-20260214-WA0040.jpg",
+    title: "Vibes OTW Revisi",
+    date: "-- ------- 2025",
+    description: "Helm udah on, motor udah ready, tinggal mental yang harus kuat buat dengerin feedback."
+  },
+  {
+    id: 10,
+    imageUrl: "https://i.ibb.co.com/XN6RtS0/IMG-20260214-201501.jpg",
+    title: "Liwetan Creative Crew",
+    date: "-- ------- 2025",
+    description: "Revisi boleh numpuk, tapi perut jangan sampai kosong. Karena ide cemerlang datang dari perut yang kenyang."
   }
 ];
