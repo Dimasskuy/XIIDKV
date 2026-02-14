@@ -73,5 +73,19 @@ export const MEMORIES: Memory[] = [
     title: "Liwetan Creative Crew",
     date: "-- ------- 2025",
     description: "Revisi boleh numpuk, tapi perut jangan sampai kosong. Karena ide cemerlang datang dari perut yang kenyang."
+  },
+  {
+    id: 11,
+    imageUrl: "https://i.ibb.co.com/Xf4T0NPn/IMG-20260214-203920.jpg",
+    title: "Bukber Seru di Rumah Alfin",
+    date: "Ramadan 2025",
+    description: "Momen hangat waktu buka bersama di rumah Alfin. Makanannya enak, tapi kebersamaannya yang paling juara."
+  },
+  {
+    id: 12,
+    imageUrl: "https://i.ibb.co.com/3y4vNcqR/IMG-20260214-203857.jpg",
+    title: "Project Mode: On",
+    date: "-- ------- 2025",
+    description: "Fokus tingkat tinggi demi deadline yang mepet. Anak DKV mah udah biasa begadang."
   }
 ];
