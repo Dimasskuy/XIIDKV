@@ -127,39 +127,32 @@ const InfiniteCarousel: React.FC<InfiniteCarouselProps> = ({
   // Helper to determine position style
   const getCardStyle = (index: number) => {
     const len = memories.length;
-    // Calculate relative position accounting for wrap-around
     let diff = (index - currentIndex + len) % len;
-    // Adjust diff to be -1, 0, 1 for prev, current, next
     if (diff > len / 2) diff -= len;
 
-    // Base styles - optimized transitions for performance
-    const baseStyle = "absolute top-1/2 left-1/2 transition-[transform,opacity,filter] duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)] shadow-2xl origin-bottom transform-gpu will-change-[transform,opacity]";
+    // Base styles - removed blur filter for performance, switched to transform-gpu
+    const baseStyle = "absolute top-1/2 left-1/2 transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] origin-bottom transform-gpu will-change-transform";
     
-    // CENTER CARD (Active)
     if (index === currentIndex) {
-      return `${baseStyle} z-30 opacity-100 scale-110 -translate-x-1/2 -translate-y-1/2 rotate-0 grayscale-0 hover:scale-115`;
+      return `${baseStyle} z-30 opacity-100 scale-105 md:scale-110 -translate-x-1/2 -translate-y-1/2 rotate-0 shadow-[0_20px_50px_rgba(0,0,0,0.5)]`;
     }
     
-    // PREVIOUS CARD (Left, tucked behind)
     const prevIndex = (currentIndex - 1 + len) % len;
     if (index === prevIndex) {
-      return `${baseStyle} z-20 opacity-50 scale-90 -translate-x-[85%] -translate-y-1/2 -rotate-6 grayscale md:blur-[1px] cursor-pointer hover:opacity-80`;
+      return `${baseStyle} z-20 opacity-40 scale-90 -translate-x-[90%] md:-translate-x-[85%] -translate-y-1/2 -rotate-3 md:-rotate-6 cursor-pointer hover:opacity-60`;
     }
     
-    // NEXT CARD (Right, tucked behind)
     const nextIndex = (currentIndex + 1) % len;
     if (index === nextIndex) {
-      return `${baseStyle} z-20 opacity-50 scale-90 -translate-x-[15%] -translate-y-1/2 rotate-6 grayscale md:blur-[1px] cursor-pointer hover:opacity-80`;
+      return `${baseStyle} z-20 opacity-40 scale-90 -translate-x-[10%] md:-translate-x-[15%] -translate-y-1/2 rotate-3 md:rotate-6 cursor-pointer hover:opacity-60`;
     }
 
-    // OTHERS (Hidden behind center)
     return `${baseStyle} z-0 opacity-0 scale-50 -translate-x-1/2 -translate-y-1/2 rotate-0 pointer-events-none`;
   };
 
   return (
     <div 
-      // Adjusted height for better desktop balance
-      className="relative w-full max-w-[95vw] mx-auto group my-12 h-[300px] md:h-[400px] select-none cursor-grab active:cursor-grabbing perspective-1000"
+      className="relative w-full max-w-full md:max-w-[95vw] mx-auto group my-8 md:my-12 h-[280px] md:h-[420px] select-none cursor-grab active:cursor-grabbing perspective-1000"
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
@@ -189,8 +182,7 @@ const InfiniteCarousel: React.FC<InfiniteCarouselProps> = ({
                       onScrollChange(index);
                     }
                 }}
-                // Reduced size for desktop so it doesn't overshadow the Hero
-                className={`w-64 h-44 md:w-[500px] md:h-[320px] bg-white p-2 md:p-5 rounded-sm ${cardClasses} will-change-transform`}
+                className={`w-[220px] h-[150px] md:w-[480px] md:h-[300px] bg-white p-1.5 md:p-4 rounded-sm ${cardClasses} will-change-transform`}
               >
                 <div className={`w-full h-full bg-gray-900 relative overflow-hidden border border-gray-200 shadow-inner group-card transform-gpu`}>
                     <img
@@ -217,8 +209,8 @@ const InfiniteCarousel: React.FC<InfiniteCarouselProps> = ({
                     )}
                 </div>
                 
-                {/* Tape Effect on Top */}
-                <div className="absolute -top-3 md:-top-5 left-1/2 -translate-x-1/2 w-16 md:w-32 h-4 md:h-8 bg-white/30 rotate-1 backdrop-blur-sm shadow-sm"></div>
+                {/* Tape Effect on Top - Simpler for mobile */}
+                <div className="absolute -top-2 md:-top-5 left-1/2 -translate-x-1/2 w-12 md:w-32 h-3 md:h-8 bg-white/30 rotate-1 backdrop-blur-sm pointer-events-none"></div>
               </div>
              );
           })}

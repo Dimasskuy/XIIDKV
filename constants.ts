@@ -59,5 +59,33 @@ export const MEMORIES: Memory[] = [
     title: "Olahraga bareng",
     date: "14 Februari 2026",
     description: "Niat Naik gunung malah stop di tengah jalan"
+  },
+  {
+    id: 9,
+    imageUrl: "https://i.ibb.co.com/xqRLJvGL/IMG-20260214-WA0040.jpg",
+    title: "Alamak lucunyoo",
+    date: "-- ------- 2025",
+    description: "Artisnya DKV nihh."
+  },
+  {
+    id: 10,
+    imageUrl: "https://i.ibb.co.com/XN6RtS0/IMG-20260214-201501.jpg",
+    title: "Niat ikut lomba masak malah di makan sendiri😭",
+    date: "-- ------- 2025",
+    description: "Revisi boleh numpuk, tapi perut jangan sampai kosong. Karena ide cemerlang datang dari perut yang kenyang."
+  },
+  {
+    id: 11,
+    imageUrl: "https://i.ibb.co.com/Xf4T0NPn/IMG-20260214-203920.jpg",
+    title: "Bukber Seruu",
+    date: "Ramadan 2025",
+    description: "Momen hangat waktu buka bersama di rumah Alfin. Makanannya enak, tapi kebersamaannya yang paling juara."
+  },
+  {
+    id: 12,
+    imageUrl: "https://i.ibb.co.com/3y4vNcqR/IMG-20260214-203857.jpg",
+    title: "Project Mode: On",
+    date: "-- ------- 2025",
+    description: "Fokus tingkat tinggi demi deadline yang mepet. Anak DKV mah udah biasa begadang."
   }
 ];
