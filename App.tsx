@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { MEMORIES, CLASS_NAME } from './constants';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Camera, Gauge, Sparkles, Star, Zap, Disc } from 'lucide-react';
+import { CLASS_NAME, MEMORIES } from './constants';
 import HeroDisplay from './components/HeroDisplay';
 import InfiniteCarousel from './components/InfiniteCarousel';
 import Footer from './components/Footer';
 import IntroScreen from './components/IntroScreen';
-import { Camera, Star, Zap, Disc, X, Gauge } from 'lucide-react';
 
 const LAST_MEMORY_KEY = 'xii-dkv:last-memory';
 const LITE_MODE_KEY = 'xii-dkv:lite-mode';
@@ -18,23 +18,19 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const sync = () => setReducedMotion(media.matches);
-    sync();
-    media.addEventListener('change', sync);
-    return () => media.removeEventListener('change', sync);
+    const update = () => setReducedMotion(media.matches);
+    update();
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
   }, []);
 
   useEffect(() => {
-    const saved = localStorage.getItem(LAST_MEMORY_KEY);
-    if (saved) {
-      const idx = Number(saved);
-      if (!Number.isNaN(idx) && idx >= 0 && idx < MEMORIES.length) {
-        setHeroIndex(idx);
-        setCarouselIndex(idx);
-      }
+    const savedIndex = Number(localStorage.getItem(LAST_MEMORY_KEY) || '0');
+    if (!Number.isNaN(savedIndex) && savedIndex >= 0 && savedIndex < MEMORIES.length) {
+      setHeroIndex(savedIndex);
+      setCarouselIndex(savedIndex);
     }
-    const savedLiteMode = localStorage.getItem(LITE_MODE_KEY);
-    setLiteMode(savedLiteMode === '1');
+    setLiteMode(localStorage.getItem(LITE_MODE_KEY) === '1');
   }, []);
 
   useEffect(() => {
@@ -45,69 +41,67 @@ const App: React.FC = () => {
     localStorage.setItem(LITE_MODE_KEY, liteMode ? '1' : '0');
   }, [liteMode]);
 
-  const activeMemory = MEMORIES[heroIndex];
   const shouldReduce = reducedMotion || liteMode;
+  const activeMemory = useMemo(() => MEMORIES[heroIndex], [heroIndex]);
 
   return (
-    <div className="min-h-screen bg-[#080808] text-white overflow-x-hidden font-sans relative selection:bg-pink-500/30">
+    <div className="min-h-screen bg-[#060608] text-white overflow-x-hidden font-sans relative selection:bg-fuchsia-500/30">
       {showIntro && <IntroScreen onComplete={() => setShowIntro(false)} reducedMotion={shouldReduce} />}
 
-      {!shouldReduce && (
-        <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden select-none">
-          <div className="absolute -top-[10%] -left-[10%] w-[80vw] h-[80vw] md:w-[60vw] md:h-[60vw] rounded-full bg-[radial-gradient(circle,_rgba(88,28,135,0.08)_0%,_transparent_70%)] mix-blend-screen transform-gpu will-change-opacity"></div>
-          <div className="absolute -bottom-[10%] -right-[10%] w-[70vw] h-[70vw] md:w-[50vw] md:h-[50vw] rounded-full bg-[radial-gradient(circle,_rgba(131,24,67,0.08)_0%,_transparent_70%)] mix-blend-screen transform-gpu"></div>
-          <Star className="hidden md:block absolute top-[15%] left-[10%] text-yellow-500/15 w-12 h-12 rotate-12 animate-float transform-gpu" />
-          <Star className="hidden md:block absolute bottom-[20%] right-[15%] text-purple-500/15 w-8 h-8 -rotate-12 transform-gpu" />
-          <Zap className="hidden md:block absolute top-[40%] right-[5%] text-cyan-500/15 w-16 h-16 rotate-45 transform-gpu" />
-          <Disc className="hidden md:block absolute bottom-[10%] left-[5%] text-white/5 w-32 h-32 animate-spin-slow transform-gpu" />
-          <div className="hidden md:block absolute top-[25%] left-0 w-full h-px bg-gradient-to-r from-transparent via-white/5 to-transparent -rotate-2 transform-gpu"></div>
-          <div className="hidden md:block absolute bottom-[30%] left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-500/5 to-transparent rotate-3 transform-gpu"></div>
-          <div className="hidden md:block absolute top-[20%] right-[10%] font-hand text-6xl text-white/[0.03] rotate-12 transform-gpu">Memories</div>
-          <div className="hidden md:block absolute bottom-[15%] left-[8%] font-sans text-8xl font-black text-white/[0.03] -rotate-6 tracking-tighter transform-gpu">DKV</div>
-          <X className="absolute top-10 right-10 text-white/10 w-4 h-4 md:w-6 md:h-6" />
-        </div>
-      )}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_22%,rgba(168,85,247,0.16),transparent_36%),radial-gradient(circle_at_82%_78%,rgba(34,211,238,0.1),transparent_40%)]" />
+        {!shouldReduce && (
+          <>
+            <Star className="hidden md:block absolute top-[15%] left-[10%] text-fuchsia-300/30 w-10 h-10 animate-float" />
+            <Zap className="hidden md:block absolute top-[35%] right-[8%] text-cyan-300/30 w-12 h-12 animate-float-delayed" />
+            <Disc className="hidden lg:block absolute bottom-[14%] left-[7%] text-white/10 w-28 h-28 animate-spin-slow" />
+          </>
+        )}
+      </div>
 
       {!showIntro && (
-        <div className="relative z-10 flex flex-col min-h-screen">
-          <header className="w-full py-4 md:py-6 px-4 md:px-12 flex justify-between items-center border-b border-white/5 sticky top-0 z-40 bg-black/70 md:bg-black/20 md:backdrop-blur-sm backdrop-blur-0 transform-gpu">
-            <div className="flex items-center gap-3 group cursor-pointer">
-              <div className="relative">
-                {!shouldReduce && <div className="absolute inset-0 bg-purple-500 blur-sm opacity-50 rounded-full group-hover:opacity-100 transition-opacity"></div>}
-                <Camera strokeWidth={1.5} className="w-8 h-8 text-white relative z-10" />
+        <div className="relative z-10 min-h-screen flex flex-col">
+          <header className="sticky top-0 z-40 border-b border-white/10 bg-black/60 md:bg-black/35 md:backdrop-blur-md backdrop-blur-0">
+            <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  {!shouldReduce && <div className="absolute inset-0 blur-md rounded-full bg-fuchsia-500/50" />}
+                  <Camera className="relative w-7 h-7 md:w-8 md:h-8" />
+                </div>
+                <div>
+                  <h1 className="text-xl md:text-2xl font-black tracking-tight italic">ALBUM {CLASS_NAME}</h1>
+                  <p className="text-[10px] md:text-xs uppercase tracking-[0.25em] text-gray-400">Class of Legends</p>
+                </div>
               </div>
-              <div className="flex flex-col">
-                <h1 className="text-xl md:text-2xl font-black tracking-tighter italic group-hover:text-purple-300 transition-colors">ALBUM {CLASS_NAME}</h1>
-                <span className="text-[8px] md:text-[10px] tracking-[0.3em] text-gray-400 uppercase">Class of Legends</span>
-              </div>
-            </div>
 
-            <div className="flex items-center gap-2">
-              <button
-                aria-label="Toggle Lite Mode"
-                onClick={() => setLiteMode((prev) => !prev)}
-                className="px-3 py-2 rounded-full border border-white/20 text-xs font-mono bg-white/5 hover:bg-white/10 inline-flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
-              >
-                <Gauge size={14} /> Lite Mode: {liteMode ? 'ON' : 'OFF'}
-              </button>
-              <div className="hidden md:block px-4 py-1 border border-white/20 rounded-full text-xs font-mono text-gray-400 bg-white/5 transform rotate-2 hover:rotate-0 transition-transform">Since 2025</div>
+              <div className="flex items-center gap-2">
+                <span className="hidden md:inline-flex items-center gap-1 px-3 py-1 rounded-full border border-white/20 bg-white/5 text-xs text-fuchsia-200">
+                  <Sparkles size={12} /> Premium Visual
+                </span>
+                <button
+                  aria-label="Aktifkan atau nonaktifkan Lite Mode"
+                  onClick={() => setLiteMode((v) => !v)}
+                  className="inline-flex items-center gap-1 px-3 py-2 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 text-xs font-mono focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400"
+                >
+                  <Gauge size={14} /> Lite {liteMode ? 'ON' : 'OFF'}
+                </button>
+              </div>
             </div>
           </header>
 
-          <main className="flex-grow flex flex-col items-center justify-start py-4 md:py-8 space-y-4 md:space-y-6 w-full px-4">
-            <div className="w-full flex justify-center">
-              <HeroDisplay memory={activeMemory} prioritizeImage={!shouldReduce} liteMode={liteMode} />
-            </div>
+          <main className="flex-1 max-w-7xl mx-auto w-full px-3 md:px-6 py-5 md:py-8">
+            <HeroDisplay memory={activeMemory} prioritizeImage={!shouldReduce} liteMode={liteMode} />
 
-            <div className="w-full mt-auto">
-              <div className="text-center mb-2 opacity-50">
-                <span className="font-hand text-xl text-purple-300"> ~ Swipe to explore ~ </span>
-              </div>
+            <div className="mt-8 md:mt-10">
+              <p className="text-center font-hand text-2xl text-fuchsia-200/80">~ Swipe & pilih momen terbaik ~</p>
               <InfiniteCarousel
                 memories={MEMORIES}
                 currentIndex={carouselIndex}
                 onScrollChange={setCarouselIndex}
-                onPickMemory={setHeroIndex}
+                onPickMemory={(index) => {
+                  setHeroIndex(index);
+                  setCarouselIndex(index);
+                }}
                 activeHeroId={activeMemory.id}
                 reducedMotion={reducedMotion}
                 liteMode={liteMode}
@@ -115,9 +109,7 @@ const App: React.FC = () => {
             </div>
           </main>
 
-          <div>
-            <Footer liteMode={liteMode} />
-          </div>
+          <Footer liteMode={liteMode} />
         </div>
       )}
     </div>
