@@ -4,15 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ALBUM XII DKV</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
     <script>
-      tailwind.config = {
+      window.tailwind = window.tailwind || {};
+      window.tailwind.config = {
         theme: {
           extend: {
             fontFamily: {
               sans: ['Space Grotesk', 'sans-serif'],
-              serif: ['Playfair Display', 'serif'],
               hand: ['Caveat', 'cursive'],
             },
             colors: {
@@ -20,61 +23,32 @@
               card: '#171717',
               accent: '#d4d4d4',
               paper: '#f5f5f0',
-            }
-          }
-        }
-      }
+            },
+          },
+        },
+      };
     </script>
-    <style>
-      body {
-        background-color: #050505;
-        color: #ffffff;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        overflow-x: hidden;
-      }
-      /* Hide scrollbar for Chrome, Safari and Opera */
-      .no-scrollbar::-webkit-scrollbar {
-          display: none;
-      }
-      /* Hide scrollbar for IE, Edge and Firefox */
-      .no-scrollbar {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
-      }
-      .grain-overlay, .bg-noise {
-        background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyAQMAAAAn8y9KAAAABlBMVEUAAAD///+l2Z/dAAAAAXRSTlMAQObYZgAAAAxJREFUCNdjYGA4AAAAxADBDY9m0AAAAABJRU5ErkJggg==");
-        background-repeat: repeat;
-      }
-      .grain-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 999;
-        opacity: 0.05;
-      }
+    <script defer src="https://cdn.tailwindcss.com"></script>
 
-      @keyframes float {
-        0%, 100% { transform: translateY(0) rotate(var(--tw-rotate, 0deg)) translateZ(0); }
-        50% { transform: translateY(-10px) rotate(var(--tw-rotate, 0deg)) translateZ(0); }
+    <style>
+      body { background-color: #050505; color: #ffffff; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x: hidden; }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      .grain-overlay, .bg-noise { background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyAQMAAAAn8y9KAAAABlBMVEUAAAD///+l2Z/dAAAAAXRSTlMAQObYZgAAAAxJREFUCNdjYGA4AAAAxADBDY9m0AAAAABJRU5ErkJggg=="); background-repeat: repeat; }
+      .grain-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; opacity: 0.05; }
+      @keyframes float { 0%, 100% { transform: translateY(0) rotate(var(--tw-rotate, 0deg)) translateZ(0); } 50% { transform: translateY(-10px) rotate(var(--tw-rotate, 0deg)) translateZ(0); } }
+      .animate-float { animation: float 4s ease-in-out infinite; will-change: transform; }
+      @keyframes spin-slow { from { transform: rotate(0deg) translateZ(0); } to { transform: rotate(360deg) translateZ(0); } }
+      .animate-spin-slow { animation: spin-slow 12s linear infinite; will-change: transform; }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+        .grain-overlay { opacity: 0.02; }
       }
-      .animate-float {
-        animation: float 4s ease-in-out infinite;
-        will-change: transform;
-      }
-      @keyframes spin-slow {
-        from { transform: rotate(0deg) translateZ(0); }
-        to { transform: rotate(360deg) translateZ(0); }
-      }
-      .animate-spin-slow {
-        animation: spin-slow 12s linear infinite;
-        will-change: transform;
+      @media (max-width: 767px) {
+        .grain-overlay { opacity: 0.03; }
       }
     </style>
-</head>
+  </head>
   <body>
     <div class="grain-overlay"></div>
     <div id="root"></div>
