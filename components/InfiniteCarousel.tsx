@@ -1,229 +1,162 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { Memory } from '../types';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Film } from 'lucide-react';
+import { FALLBACK_IMAGE } from '../constants';
+import { Memory } from '../types';
 
 interface InfiniteCarouselProps {
   memories: Memory[];
   currentIndex: number;
-  onScrollChange: (index: number) => void; 
+  onScrollChange: (index: number) => void;
   onPickMemory: (index: number) => void;
   activeHeroId: number;
+  reducedMotion: boolean;
+  liteMode: boolean;
 }
 
-const InfiniteCarousel: React.FC<InfiniteCarouselProps> = ({ 
-  memories, 
-  currentIndex, 
-  onScrollChange, 
+const InfiniteCarousel: React.FC<InfiniteCarouselProps> = ({
+  memories,
+  currentIndex,
+  onScrollChange,
   onPickMemory,
-  activeHeroId 
+  activeHeroId,
+  reducedMotion,
+  liteMode,
 }) => {
-  const [isPaused, setIsPaused] = useState(false);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  
-  // Swipe State
+  const [isPaused, setIsPaused] = useState(reducedMotion || liteMode);
+  const [failed, setFailed] = useState<Record<number, boolean>>({});
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
-  const minSwipeDistance = 50;
 
-  const handleNext = () => {
-    onScrollChange((currentIndex + 1) % memories.length);
-  };
+  const idxRef = useRef(currentIndex);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const resumeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const handlePrev = () => {
-    onScrollChange((currentIndex - 1 + memories.length) % memories.length);
-  };
-
-  // --- Auto-play Logic ---
   useEffect(() => {
-    let interval: ReturnType<typeof setInterval>;
+    idxRef.current = currentIndex;
+  }, [currentIndex]);
 
-    if (!isPaused) {
-      interval = setInterval(() => {
-        handleNext();
-      }, 3000); // Sedikit diperlambat agar kartu terlihat jelas
+  useEffect(() => {
+    setIsPaused(reducedMotion || liteMode);
+  }, [reducedMotion, liteMode]);
+
+  const next = useCallback(() => {
+    onScrollChange((idxRef.current + 1) % memories.length);
+  }, [memories.length, onScrollChange]);
+
+  const prev = () => {
+    onScrollChange((idxRef.current - 1 + memories.length) % memories.length);
+  };
+
+  useEffect(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    if (!isPaused && !reducedMotion && !liteMode) {
+      intervalRef.current = setInterval(next, 3600);
     }
-
     return () => {
-        if (interval) clearInterval(interval);
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (resumeRef.current) clearTimeout(resumeRef.current);
     };
-  }, [isPaused, currentIndex, memories.length]);
+  }, [isPaused, reducedMotion, liteMode, next]);
 
-  // --- Pause/Resume Logic ---
-  const pauseAutoPlay = () => {
+  const pause = () => {
     setIsPaused(true);
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    if (resumeRef.current) clearTimeout(resumeRef.current);
   };
 
-  const resumeAutoPlay = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsPaused(false);
-    }, 2500);
+  const resume = () => {
+    if (reducedMotion || liteMode) return;
+    resumeRef.current = setTimeout(() => setIsPaused(false), 2200);
   };
 
-  // --- Swipe/Touch Handlers ---
-  const onTouchStart = (e: React.TouchEvent) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
-    pauseAutoPlay();
-  };
+  const minSwipeDistance = 45;
 
-  const onTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) {
-        resumeAutoPlay();
-        return;
-    }
-    
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
-
-    if (isLeftSwipe) {
-      handleNext();
-    } else if (isRightSwipe) {
-      handlePrev();
-    }
-    
-    resumeAutoPlay();
-  };
-
-  // --- Mouse Handlers ---
-  const onMouseDown = (e: React.MouseEvent) => {
-    setTouchEnd(null);
-    setTouchStart(e.clientX);
-    pauseAutoPlay();
-  };
-
-  const onMouseMove = (e: React.MouseEvent) => {
-    if (touchStart !== null) {
-        setTouchEnd(e.clientX);
-    }
-  };
-
-  const onMouseUp = () => {
-    if (touchStart !== null && touchEnd !== null) {
-        const distance = touchStart - touchEnd;
-        const isLeftSwipe = distance > minSwipeDistance;
-        const isRightSwipe = distance < -minSwipeDistance;
-
-        if (isLeftSwipe) handleNext();
-        if (isRightSwipe) handlePrev();
-    }
-    setTouchStart(null);
-    setTouchEnd(null);
-    resumeAutoPlay();
-  };
-
-  const onMouseLeave = () => {
-    if (touchStart !== null) {
-        setTouchStart(null);
-        resumeAutoPlay();
-    }
-  };
-
-  // Helper to determine position style
-  const getCardStyle = (index: number) => {
-    const len = memories.length;
-    let diff = (index - currentIndex + len) % len;
-    if (diff > len / 2) diff -= len;
-
-    // Base styles - removed blur filter for performance, switched to transform-gpu
-    const baseStyle = "absolute top-1/2 left-1/2 transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] origin-bottom transform-gpu will-change-transform";
-    
-    if (index === currentIndex) {
-      return `${baseStyle} z-30 opacity-100 scale-105 md:scale-110 -translate-x-1/2 -translate-y-1/2 rotate-0 shadow-[0_20px_50px_rgba(0,0,0,0.5)]`;
-    }
-    
-    const prevIndex = (currentIndex - 1 + len) % len;
-    if (index === prevIndex) {
-      return `${baseStyle} z-20 opacity-40 scale-90 -translate-x-[90%] md:-translate-x-[85%] -translate-y-1/2 -rotate-3 md:-rotate-6 cursor-pointer hover:opacity-60`;
-    }
-    
-    const nextIndex = (currentIndex + 1) % len;
-    if (index === nextIndex) {
-      return `${baseStyle} z-20 opacity-40 scale-90 -translate-x-[10%] md:-translate-x-[15%] -translate-y-1/2 rotate-3 md:rotate-6 cursor-pointer hover:opacity-60`;
-    }
-
-    return `${baseStyle} z-0 opacity-0 scale-50 -translate-x-1/2 -translate-y-1/2 rotate-0 pointer-events-none`;
+  const cardBase = (index: number) => {
+    const base = `absolute top-1/2 left-1/2 transition-[transform,opacity] ${reducedMotion ? 'duration-150' : 'duration-500'} ease-out origin-center transform-gpu`;
+    if (index === currentIndex) return `${base} z-30 opacity-100 scale-100 md:scale-105 -translate-x-1/2 -translate-y-1/2`;
+    if (index === (currentIndex - 1 + memories.length) % memories.length) return `${base} z-20 opacity-55 scale-90 -translate-x-[95%] md:-translate-x-[88%] -translate-y-1/2 ${reducedMotion ? '' : '-rotate-6'}`;
+    if (index === (currentIndex + 1) % memories.length) return `${base} z-20 opacity-55 scale-90 -translate-x-[5%] md:-translate-x-[12%] -translate-y-1/2 ${reducedMotion ? '' : 'rotate-6'}`;
+    return `${base} z-0 opacity-0 scale-75 -translate-x-1/2 -translate-y-1/2 pointer-events-none`;
   };
 
   return (
-    <div 
-      className="relative w-full max-w-full md:max-w-[95vw] mx-auto group my-8 md:my-12 h-[280px] md:h-[420px] select-none cursor-grab active:cursor-grabbing perspective-1000"
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
-      onMouseDown={onMouseDown}
-      onMouseMove={onMouseMove}
-      onMouseUp={onMouseUp}
-      onMouseLeave={onMouseLeave}
+    <section
+      className="relative w-full h-[300px] md:h-[430px] mt-4 select-none cursor-grab active:cursor-grabbing"
+      onTouchStart={(e) => {
+        pause();
+        setTouchEnd(null);
+        setTouchStart(e.targetTouches[0].clientX);
+      }}
+      onTouchMove={(e) => setTouchEnd(e.targetTouches[0].clientX)}
+      onTouchEnd={() => {
+        if (touchStart !== null && touchEnd !== null) {
+          const d = touchStart - touchEnd;
+          if (d > minSwipeDistance) next();
+          if (d < -minSwipeDistance) prev();
+        }
+        resume();
+      }}
+      onMouseDown={(e) => {
+        pause();
+        setTouchEnd(null);
+        setTouchStart(e.clientX);
+      }}
+      onMouseMove={(e) => touchStart !== null && setTouchEnd(e.clientX)}
+      onMouseUp={() => {
+        if (touchStart !== null && touchEnd !== null) {
+          const d = touchStart - touchEnd;
+          if (d > minSwipeDistance) next();
+          if (d < -minSwipeDistance) prev();
+        }
+        setTouchStart(null);
+        setTouchEnd(null);
+        resume();
+      }}
+      onMouseLeave={() => {
+        setTouchStart(null);
+        setTouchEnd(null);
+        resume();
+      }}
     >
-      
-      {/* Decorative Background for Carousel - Optimized with radial gradient */}
-      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-40 md:h-96 bg-[radial-gradient(circle,_rgba(255,255,255,0.05)_0%,_transparent_70%)] rounded-full -z-10 pointer-events-none transform-gpu"></div>
+      {!liteMode && <div className="absolute inset-x-8 top-1/2 -translate-y-1/2 h-40 md:h-72 rounded-full bg-[radial-gradient(circle,_rgba(217,70,239,0.13)_0%,_transparent_70%)]" />}
 
-      {/* Cards Container */}
-      <div className="w-full h-full relative">
-          {memories.map((memory, index) => {
-             const isHeroActive = memory.id === activeHeroId;
-             const cardClasses = getCardStyle(index);
-
-             return (
-              <div
-                key={memory.id}
-                onClick={(e) => {
-                    e.stopPropagation(); 
-                    if (index === currentIndex) {
-                      onPickMemory(index);
-                    } else {
-                      onScrollChange(index);
-                    }
-                }}
-                className={`w-[220px] h-[150px] md:w-[480px] md:h-[300px] bg-white p-1.5 md:p-4 rounded-sm ${cardClasses} will-change-transform`}
-              >
-                <div className={`w-full h-full bg-gray-900 relative overflow-hidden border border-gray-200 shadow-inner group-card transform-gpu`}>
-                    <img
-                        src={memory.imageUrl}
-                        alt={memory.title}
-                        loading="lazy"
-                        decoding="async"
-                        className="w-full h-full object-cover pointer-events-none"
-                    />
-                    
-                    {/* Dark Overlay for inactive cards */}
-                    {index !== currentIndex && (
-                      <div className="absolute inset-0 bg-black/40 transition-opacity"></div>
-                    )}
-
-                    {/* Number Badge */}
-                    <div className="absolute top-2 right-2 bg-black/60 text-white text-[10px] md:text-sm px-2 md:px-3 py-0.5 md:py-1 rounded-full font-mono backdrop-blur-md">
-                      #{index + 1}
-                    </div>
-
-                    {/* Active Hero Indicator */}
-                    {isHeroActive && (
-                        <div className="absolute inset-0 border-4 border-yellow-400/80 pointer-events-none z-40 animate-pulse"></div>
-                    )}
-                </div>
-                
-                {/* Tape Effect on Top - Simpler for mobile */}
-                <div className="absolute -top-2 md:-top-5 left-1/2 -translate-x-1/2 w-12 md:w-32 h-3 md:h-8 bg-white/30 rotate-1 backdrop-blur-sm pointer-events-none"></div>
+      <div className="relative w-full h-full">
+        {memories.map((memory, index) => {
+          const src = failed[memory.id] ? FALLBACK_IMAGE : memory.imageUrl;
+          const isActive = memory.id === activeHeroId;
+          return (
+            <button
+              key={memory.id}
+              aria-label={`Pilih ${memory.title}`}
+              className={`${cardBase(index)} w-[245px] h-[165px] md:w-[520px] md:h-[320px] rounded-lg bg-white p-2 md:p-3 text-left shadow-[0_20px_60px_rgba(0,0,0,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400`}
+              onClick={() => (index === currentIndex ? onPickMemory(index) : onScrollChange(index))}
+            >
+              <div className="relative h-full w-full overflow-hidden rounded border border-white/10 bg-black">
+                <img
+                  src={src}
+                  srcSet={`${src} 480w, ${src} 768w, ${src} 1280w`}
+                  sizes="(max-width: 768px) 245px, 520px"
+                  alt={memory.title}
+                  width={memory.width}
+                  height={memory.height}
+                  loading={index === currentIndex ? 'eager' : 'lazy'}
+                  fetchPriority={index === currentIndex ? 'high' : 'auto'}
+                  decoding="async"
+                  onError={() => setFailed((p) => ({ ...p, [memory.id]: true }))}
+                  className="w-full h-full object-cover"
+                />
+                {index !== currentIndex && <div className="absolute inset-0 bg-black/45" />}
+                <div className="absolute top-2 right-2 px-2 py-1 rounded-full text-[10px] md:text-xs bg-black/60 border border-white/10">#{index + 1}</div>
+                {isActive && <div className={`absolute inset-0 border-[3px] border-amber-300/90 ${reducedMotion ? '' : 'animate-pulse'}`} />}
               </div>
-             );
-          })}
+            </button>
+          );
+        })}
       </div>
-      
-      {/* Status */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex items-center gap-2 pointer-events-none opacity-50">
-         <Film size={12} className="text-purple-400" />
-         <span className="font-mono text-[10px] text-purple-200 tracking-[0.2em] uppercase">
-            {isPaused ? "HOLD" : "SLIDE"}
-         </span>
+
+      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 inline-flex items-center gap-2 text-[10px] font-mono tracking-[0.25em] text-fuchsia-200/85 pointer-events-none">
+        <Film size={12} /> {isPaused ? 'HOLD' : 'AUTOPLAY'}
       </div>
-    </div>
+    </section>
   );
 };
 

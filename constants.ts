@@ -1,91 +1,22 @@
 import { Memory } from './types';
 
-export const CLASS_NAME = "XII DKV";
-export const SCHOOL_IG_URL = "https://www.instagram.com/markxii.visual?igsh=MTh2MDN4YmZkcmdseA=="; // Updated link
+export const CLASS_NAME = 'XII DKV';
+export const SCHOOL_IG_URL = 'https://www.instagram.com/markxii.visual?igsh=MTh2MDN4YmZkcmdseA==';
+
+export const FALLBACK_IMAGE =
+  'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720"><rect width="100%" height="100%" fill="%23151515"/><text x="50%" y="50%" fill="%23b3b3b3" font-size="42" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif">Memory image unavailable</text></svg>';
 
 export const MEMORIES: Memory[] = [
-  {
-    id: 1,
-    imageUrl: "https://i.ibb.co.com/27Tr6NRg/20231127-092655-1.jpg",
-    title: "Teman Terbaik Welll",
-    date: "12 Mei 2024",
-    description: "kita cuma teman tapi kita seperti sahabat."
-  },
-  {
-    id: 2,
-    imageUrl: "https://i.ibb.co.com/23nyZFQv/IMG-20260210-193743-1.jpg",
-    title: "Wali kelas Terbaik kita semua",
-    date: "----- ------ 2025",
-    description: "Bu Vida yang selalu sabar ngadepin kita yang beban ini.."
-  },
-  {
-    id: 3,
-    imageUrl: "https://i.ibb.co.com/jvYpH0xg/IMG-20241126-WA0106.jpg",
-    title: "Foto jaman 90 an",
-    date: "15 Agustus 1981",
-    description: "Gak tau ini foto dah jaman purba"
-  },
-  {
-    id: 4,
-    imageUrl: "https://i.ibb.co.com/HDfDwNkj/IMG-20260210-WA0007.jpg",
-    title: "Lomba class meeting Antar Kelas",
-    date: "-- ------- 2025",
-    description: "Menang kalah urusan belakang, tapi kita selalu menang bosss."
-  },
-  {
-    id: 5,
-    imageUrl: "https://i.ibb.co.com/DfrN1GyX/IMG-20260210-WA0023.jpg",
-    title: "Praktek buat kemasan",
-    date: "10 Januari 2026",
-    description: "Meskipun awalnya susah nanti juga kita ahli jika kita terus berusaha"
-  },
-  {
-    id: 6,
-    imageUrl: "https://i.ibb.co.com/rfTdrsZT/IMG-20260210-192927.jpg",
-    title: "HBD Bu Vidaa🎉",
-    date: "26 November 2025",
-    description: "Guru kesukaan kita ulang tahun ygy"
-  },
-  {
-    id: 7,
-    imageUrl: "https://i.ibb.co.com/v6VRxwh9/IMG-20260210-WA0030.jpg",
-    title: "ANOMALI",
-    date: "16 desember 2025",
-    description: "Gak Jelas dah ini"
-  },
-  {
-    id: 8,
-    imageUrl: "https://i.ibb.co.com/rTtF7L7/IMG-20260210-203252.jpg",
-    title: "Olahraga bareng",
-    date: "14 Februari 2026",
-    description: "Niat Naik gunung malah stop di tengah jalan"
-  },
-  {
-    id: 9,
-    imageUrl: "https://i.ibb.co.com/xqRLJvGL/IMG-20260214-WA0040.jpg",
-    title: "Alamak lucunyoo",
-    date: "-- ------- 2025",
-    description: "Artisnya DKV nihh."
-  },
-  {
-    id: 10,
-    imageUrl: "https://i.ibb.co.com/XN6RtS0/IMG-20260214-201501.jpg",
-    title: "Niat ikut lomba masak malah di makan sendiri😭",
-    date: "-- ------- 2025",
-    description: "Revisi boleh numpuk, tapi perut jangan sampai kosong. Karena ide cemerlang datang dari perut yang kenyang."
-  },
-  {
-    id: 11,
-    imageUrl: "https://i.ibb.co.com/Xf4T0NPn/IMG-20260214-203920.jpg",
-    title: "Bukber Seruu",
-    date: "Ramadan 2025",
-    description: "Momen hangat waktu buka bersama di rumah Alfin. Makanannya enak, tapi kebersamaannya yang paling juara."
-  },
-  {
-    id: 12,
-    imageUrl: "https://i.ibb.co.com/3y4vNcqR/IMG-20260214-203857.jpg",
-    title: "Project Mode: On",
-    date: "-- ------- 2025",
-    description: "Fokus tingkat tinggi demi deadline yang mepet. Anak DKV mah udah biasa begadang."
-  }
+  { id: 1, imageUrl: 'https://i.ibb.co.com/27Tr6NRg/20231127-092655-1.jpg', title: 'Teman Terbaik Welll', date: '12 Mei 2024', description: 'kita cuma teman tapi kita seperti sahabat.', width: 1600, height: 900 },
+  { id: 2, imageUrl: 'https://i.ibb.co.com/23nyZFQv/IMG-20260210-193743-1.jpg', title: 'Wali kelas Terbaik kita semua', date: '----- ------ 2025', description: 'Bu Vida yang selalu sabar ngadepin kita yang beban ini..', width: 1440, height: 1080 },
+  { id: 3, imageUrl: 'https://i.ibb.co.com/jvYpH0xg/IMG-20241126-WA0106.jpg', title: 'Foto jaman 90 an', date: '15 Agustus 1981', description: 'Gak tau ini foto dah jaman purba', width: 1280, height: 960 },
+  { id: 4, imageUrl: 'https://i.ibb.co.com/HDfDwNkj/IMG-20260210-WA0007.jpg', title: 'Lomba class meeting Antar Kelas', date: '-- ------- 2025', description: 'Menang kalah urusan belakang, tapi kita selalu menang bosss.', width: 1600, height: 900 },
+  { id: 5, imageUrl: 'https://i.ibb.co.com/DfrN1GyX/IMG-20260210-WA0023.jpg', title: 'Praktek buat kemasan', date: '10 Januari 2026', description: 'Meskipun awalnya susah nanti juga kita ahli jika kita terus berusaha', width: 1600, height: 900 },
+  { id: 6, imageUrl: 'https://i.ibb.co.com/rfTdrsZT/IMG-20260210-192927.jpg', title: 'HBD Bu Vidaa🎉', date: '26 November 2025', description: 'Guru kesukaan kita ulang tahun ygy', width: 1536, height: 1024 },
+  { id: 7, imageUrl: 'https://i.ibb.co.com/v6VRxwh9/IMG-20260210-WA0030.jpg', title: 'ANOMALI', date: '16 desember 2025', description: 'Gak Jelas dah ini', width: 1200, height: 900 },
+  { id: 8, imageUrl: 'https://i.ibb.co.com/rTtF7L7/IMG-20260210-203252.jpg', title: 'Olahraga bareng', date: '14 Februari 2026', description: 'Niat Naik gunung malah stop di tengah jalan', width: 1440, height: 1080 },
+  { id: 9, imageUrl: 'https://i.ibb.co.com/xqRLJvGL/IMG-20260214-WA0040.jpg', title: 'Alamak lucunyoo', date: '-- ------- 2025', description: 'Artisnya DKV nihh.', width: 1280, height: 720 },
+  { id: 10, imageUrl: 'https://i.ibb.co.com/XN6RtS0/IMG-20260214-201501.jpg', title: 'Niat ikut lomba masak malah di makan sendiri😭', date: '-- ------- 2025', description: 'Revisi boleh numpuk, tapi perut jangan sampai kosong. Karena ide cemerlang datang dari perut yang kenyang.', width: 1536, height: 1024 },
+  { id: 11, imageUrl: 'https://i.ibb.co.com/Xf4T0NPn/IMG-20260214-203920.jpg', title: 'Bukber Seruu', date: 'Ramadan 2025', description: 'Momen hangat waktu buka bersama di rumah Alfin. Makanannya enak, tapi kebersamaannya yang paling juara.', width: 1600, height: 900 },
+  { id: 12, imageUrl: 'https://i.ibb.co.com/3y4vNcqR/IMG-20260214-203857.jpg', title: 'Project Mode: On', date: '-- ------- 2025', description: 'Fokus tingkat tinggi demi deadline yang mepet. Anak DKV mah udah biasa begadang.', width: 1440, height: 900 }
 ];

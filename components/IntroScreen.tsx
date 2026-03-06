@@ -1,91 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 interface IntroScreenProps {
   onComplete: () => void;
+  reducedMotion: boolean;
 }
 
-const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
-  const [isVisible, setIsVisible] = useState(true);
+const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete, reducedMotion }) => {
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-    }, 2500);
+    const showFor = reducedMotion ? 300 : 1800;
+    const t1 = setTimeout(() => setHidden(true), showFor);
+    const t2 = setTimeout(onComplete, showFor + 420);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [onComplete, reducedMotion]);
 
-    return () => clearTimeout(timer);
-  }, []);
+  if (reducedMotion) return null;
 
   return (
-    <AnimatePresence onExitComplete={onComplete}>
-      {isVisible && (
-        <motion.div
-          key="intro-screen"
-          initial={{ opacity: 1 }}
-          exit={{
-            opacity: 0,
-            transition: { duration: 0.8, ease: "easeInOut" }
-          }}
-          className="fixed inset-0 z-[100] bg-[#050505] flex flex-col items-center justify-center overflow-hidden"
-        >
-          {/* Background decorations matching the main theme */}
-          <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vw] rounded-full bg-[radial-gradient(circle,_rgba(147,51,234,0.05)_0%,_transparent_70%)] transform-gpu will-change-transform"></div>
-          </div>
-
-          <div className="relative z-10 flex flex-col items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{
-                opacity: 1,
-                y: 0,
-                transition: { duration: 0.8, ease: "easeOut" }
-              }}
-              className="mb-4"
-            >
-              <span className="text-xs tracking-[0.5em] text-purple-400 uppercase font-mono">Presenting</span>
-            </motion.div>
-
-            <motion.h2
-              initial={{ opacity: 0, scale: 0.8, letterSpacing: "0.1em" }}
-              animate={{
-                opacity: 1,
-                scale: 1,
-                letterSpacing: "0.3em",
-                transition: {
-                  duration: 1.2,
-                  ease: [0.22, 1, 0.36, 1], // Custom cubic-bezier for elegance
-                  delay: 0.2
-                }
-              }}
-              className="text-4xl md:text-7xl font-black italic tracking-tighter text-white text-center px-4"
-            >
-              DKV NI BOSSS
-            </motion.h2>
-
-            <motion.div
-              initial={{ width: 0, opacity: 0 }}
-              animate={{
-                width: "80%",
-                opacity: 1,
-                transition: { duration: 1, delay: 0.8, ease: "easeInOut" }
-              }}
-              className="h-[1px] mt-6 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"
-            />
-          </div>
-
-          {/* Animated ornaments */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 1 }}
-            className="absolute bottom-8 md:bottom-12 font-hand text-lg md:text-xl text-white/20"
-          >
-            Class of Legends
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <div className={`fixed inset-0 z-50 flex items-center justify-center bg-[#050507] transition-opacity duration-500 ${hidden ? 'opacity-0' : 'opacity-100'}`}>
+      <div className="relative text-center px-6">
+        <div className="absolute -inset-12 bg-[radial-gradient(circle,_rgba(217,70,239,0.2)_0%,_transparent_65%)] animate-pulse-slow" />
+        <p className="relative text-xs uppercase tracking-[0.5em] text-fuchsia-300 mb-4">Presenting</p>
+        <h2 className="relative text-4xl md:text-7xl font-black italic tracking-[0.18em]">DKV NI BOSSS</h2>
+        <div className="relative mt-6 h-px w-64 md:w-96 mx-auto bg-gradient-to-r from-transparent via-fuchsia-400/70 to-transparent" />
+      </div>
+    </div>
   );
 };
 

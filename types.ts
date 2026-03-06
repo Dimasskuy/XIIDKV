@@ -3,7 +3,9 @@ export interface Memory {
   imageUrl: string;
   title: string;
   date: string;
-  description: string; // Static description
+  description: string;
+  width: number;
+  height: number;
 }
 
 export interface QuoteState {
